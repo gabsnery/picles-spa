@@ -11,21 +11,22 @@ export const Button = ({
   children,
   ...rest
 }: IButton) => {
-  let buttonClass = `${styles.buttonBase} ${styles[`button${variant}`]}`;   
-/*    switch (variant) {
+  let buttonClass = styles.buttonBase;
+  //let buttonClass = `${styles.buttonBase} ${styles[`button${variant}`]}`;
+  switch (variant) {
     case ButtonVariant.Default:
-      buttonClass += `${styles.buttonDefault}`;
+      buttonClass += ` ${styles.buttonDefault}`;
       break;
     case ButtonVariant.Outlined:
-      buttonClass += `${styles.buttonOutlined}`;
+      buttonClass += ` ${styles.buttonOutlined}`;
       break;
     case ButtonVariant.Text:
-      buttonClass += `${styles.buttonText}`;
+      buttonClass += ` ${styles.buttonText}`;
       break;
     case ButtonVariant.Disabled:
-      buttonClass += `${styles.buttonDisabled}`;
+      buttonClass += ` ${styles.buttonDisabled}`;
       break;
-  }   */
+  }
   return (
     <button {...rest} className={buttonClass}>
       {children}
