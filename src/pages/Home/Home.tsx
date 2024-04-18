@@ -7,7 +7,7 @@ export const Home = () => {
     <div className={styles.container}>
       <img src={dog} width={"100%"} />
       <Link to={"/pets"}>
-        <Button variant={ButtonVariant.Default}>Quero adotar</Button>
+        <Button variant={ButtonVariant.Default}>Quero adotar da Gabi</Button>
       </Link>
       <Link to={"/admin"}>
         <Button variant={ButtonVariant.Outlined}>Tenho um abrigo</Button>
