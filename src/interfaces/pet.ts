@@ -6,8 +6,6 @@ export interface IPet {
   gender: string;
   photo: string;
   bio: string;
-  /*     createdAt: Date;
-    updatedAt: Date; */
 }
 
 export type GetPetsRequest = Partial<Pick<IPet, "type" | "size" | "gender">> & {
@@ -17,7 +15,7 @@ export type GetPetsRequest = Partial<Pick<IPet, "type" | "size" | "gender">> & {
 
 export type GetPetsResponse = {
   items: IPet[]
-  totalPages:number
+  totalPage:number
   currentPage:number
 };
 
