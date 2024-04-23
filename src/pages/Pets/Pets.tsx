@@ -1,6 +1,6 @@
-import { FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Button } from "../../components/common/Button";
+import { Button, ButtonVariant } from "../../components/common/Button";
 import { Card } from "../../components/common/Card/Card.";
 import { Header } from "../../components/common/Header";
 import { Pagination } from "../../components/common/Pagination/Pagination";
@@ -14,6 +14,7 @@ import { GetPetsRequest } from "../../interfaces/pet";
 
 export const Pets = () => {
   const [searchParam, setSearchParams] = useSearchParams();
+  const [isButtonEnable, setIsButtonEnable] = useState<boolean>(false);
   /* const [especies, setEspecies] = useState<string[]>([]); */
 
   const urlParams = {
@@ -26,7 +27,16 @@ export const Pets = () => {
 
   const [page, setPage] = useState<number>(1);
   const { data, isLoading } = usePetList(urlParams);
-
+  const checkButtonStatus = (event: ChangeEvent<HTMLFormElement>) => {
+    const props = getFormValue(event.target.form);
+    if (
+      props.type !== urlParams.type ||
+      props.size !== urlParams.size ||
+      props.gender !== urlParams.gender
+    ) {
+      setIsButtonEnable(true);
+    } else setIsButtonEnable(false);
+  };
   /*  useEffect(() => {
     if (data) setEspecies([...new Set(data.items.map((item) => item.type))]);
   }, [data]); */
@@ -38,31 +48,32 @@ export const Pets = () => {
   };
 
   function getFormValue(form: HTMLFormElement) {
-    const formData = new FormData(form)
-    return Object.fromEntries(formData)
+    const formData = new FormData(form);
+    return Object.fromEntries(formData);
   }
 
   function updateSearchParams(urlParams: GetPetsRequest) {
-    const fields: (keyof GetPetsRequest)[] = ['type', 'size', 'gender']
-    const newParams = new URLSearchParams()
+    const fields: (keyof GetPetsRequest)[] = ["type", "size", "gender"];
+    const newParams = new URLSearchParams();
 
     fields.forEach((field) => {
       if (urlParams[field]) {
-        newParams.set(field, String(urlParams[field]))
+        newParams.set(field, String(urlParams[field]));
       }
-    })
-    newParams.set('page', '1')
+    });
+    newParams.set("page", "1");
 
-    return newParams
+    return newParams;
   }
 
   function applyFilters(event: FormEvent) {
-    event.preventDefault()
+    event.preventDefault();
 
-    const formValues = getFormValue(event.target as HTMLFormElement)
-    const newSearchParams = updateSearchParams(formValues)
+    const formValues = getFormValue(event.target as HTMLFormElement);
+    const newSearchParams = updateSearchParams(formValues);
 
-    setSearchParams(newSearchParams)
+    setSearchParams(newSearchParams);
+    setIsButtonEnable(false);
   }
 
   return (
@@ -70,11 +81,15 @@ export const Pets = () => {
       <Grid>
         <div className={styles.container}>
           <Header />
-          <form className={styles.filters} onSubmit={applyFilters}>
+          <form
+            className={styles.filters}
+            onSubmit={applyFilters}
+            onChange={checkButtonStatus}
+          >
             <div className={styles.columns}>
-              {filterColumns.map((filter) => {
+              {filterColumns.map((filter, index) => {
                 return (
-                  <div className={styles.column}>
+                  <div key={index} className={styles.column}>
                     <Select
                       label={filter.name}
                       defaultValue={urlParams[filter.name]}
@@ -85,7 +100,14 @@ export const Pets = () => {
                 );
               })}
             </div>
-            <Button type={"submit"}>Buscar</Button>
+            <Button
+              type={"submit"}
+              variant={
+                isButtonEnable ? ButtonVariant.Default : ButtonVariant.Disabled
+              }
+            >
+              Buscar
+            </Button>
           </form>
           {isLoading && (
             <Skeleton

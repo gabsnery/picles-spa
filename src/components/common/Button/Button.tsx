@@ -28,7 +28,7 @@ export const Button = ({
       break;
   }
   return (
-    <button {...rest} className={buttonClass}>
+    <button {...rest} className={`${rest.className} ${buttonClass}`}>
       {children}
     </button>
   );
