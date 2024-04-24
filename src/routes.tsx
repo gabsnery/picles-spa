@@ -2,30 +2,44 @@ import { createBrowserRouter, useParams } from "react-router-dom";
 import { Home } from "./pages/Home";
 import { Pets } from "./pages/Pets";
 import { PetDetails } from "./pages/PetDetails";
+import { Shelter } from "./pages/Admin/Shelter";
+import { PetsList } from "./pages/Admin/PetList";
+import { AuthHOC } from "./components/common/AuthHOC/AuthHOC";
 
-const router= createBrowserRouter([
+const router = createBrowserRouter([
   {
     path: "/",
-    element:<Home/>
+    element: <Home />,
   },
   {
     path: "/pets",
-    children:[
+    children: [
       {
-        index:true,
-        element:<Pets/>
+        index: true,
+        element: <Pets />,
       },
       {
         path: "/pets/:id",
-        element:<PetDetails/>
+        element: <PetDetails />,
       },
-    ]
+    ],
   },
   {
     path: "/admin",
-    element:<h1>Adimin</h1>
+    children: [
+      { index: true, element: <Shelter /> },
+      {
+        path: "/admin/pets",
+        element: <AuthHOC />,
+        children: [
+          {
+            index: true,
+            element: <PetsList />,
+          },
+        ],
+      },
+    ],
   },
-
 ]);
 
 export default router;
