@@ -35,7 +35,7 @@ export const PetDetails = () => {
               <Skeleton width={180} height={24} style={{ margin: 16 }} />
             </div>
           )}
-{shelterIsError.toString()}
+          {shelterIsError.toString()}
           {!petIsLoading && (
             <>
               <ImageBase64 src={petData?.photo} className={styles.picture} />
@@ -53,13 +53,12 @@ export const PetDetails = () => {
                     <a
                       href={`http://wa.me/${shelterData?.shelterWhatsApp}?text=Olá, gostaria de falar sobre o ${petData?.name}`}
                       target="_blank"
-                      
                     >
-                      <Button variant={ButtonVariant.Text} className={styles.buttonWhatsapp}>
-                        <img
-                          src={WhatsAppIcon}
-                         
-                        />
+                      <Button
+                        variant={ButtonVariant.Text}
+                        className={styles.buttonWhatsapp}
+                      >
+                        <img src={WhatsAppIcon} />
                         Fale no zap {shelterData?.shelterEmail}
                       </Button>
                     </a>
